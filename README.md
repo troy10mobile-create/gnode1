@@ -14,7 +14,7 @@ This is the **core** that every participant runs. It maintains its own copy of t
 - Automatic peer discovery via the Discovery Service
 - Basic P2P block & transaction propagation
 - REST API for chain, wallet, sending, mining
-- Ready for browser Wallet + Explorer (static/templates folders prepared)
+- Built-in browser dashboard with wallet overview, send form, mining control, recent-block explorer, peer count and mempool
 
 ## Quick Start
 
@@ -50,9 +50,28 @@ The node will:
 | `DIFFICULTY`     | Leading zeros required (default 4)               |
 | `BLOCK_REWARD`   | Coinbase reward (default 50)                     |
 
+## Browser interface
+
+Open the node's base URL (`/`) in a browser. The node serves its own responsive dashboard; no separate frontend hosting or build step is required.
+
+The dashboard reads the node's API and refreshes automatically every 15 seconds. It includes:
+
+- This node wallet address and confirmed balance
+- Send transaction form (the existing node wallet signs the transaction)
+- Mine-block control
+- Recent blocks with height, hash, transaction count and timestamp
+- Peer count and network status
+- Pending transaction list
+
+The original JSON API remains available. Node status is now at `/api/status`; pending transactions are at `/api/mempool`.
+
+**Security note:** this is an experimental interface, not a production wallet. The existing `/api/send` endpoint asks the server-side node wallet to sign transactions, and the node API currently has no user authentication. Do not expose a node containing valuable keys or funds to an untrusted public network.
+
 ## Main API Endpoints
 
-- `GET  /`                  → Node info
+- `GET  /`                  → Browser dashboard
+- `GET  /api/status`        → Node info and status
+- `GET  /api/mempool`       → Pending transactions
 - `GET  /api/chain`         → Full blockchain
 - `GET  /api/wallet`        → This node's address + balance
 - `GET  /api/balance/{addr}`→ Balance of any address
@@ -88,8 +107,7 @@ blockchain-node/
 
 ## Next Steps (planned)
 
-- Browser-based Wallet UI
-- Blockchain Explorer
+- Full transaction/block detail pages and address history
 - Dynamic difficulty adjustment
 - Cumulative chainwork
 - Proper fork handling / reorgs
