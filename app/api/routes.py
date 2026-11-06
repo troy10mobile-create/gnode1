@@ -41,14 +41,24 @@ class BlockReceive(BaseModel):
     merkle_root: str = ""
 
 
-@router.get("/")
-async def root():
+@router.get("/api/status")
+async def get_status():
     return {
         "service": "Blockchain Node",
         "version": "0.2.0",
         "address": wallet.address if wallet else None,
-        "height": len(blockchain.chain) if blockchain else 0,
+        "height": len(blockchain.chain) - 1 if blockchain else 0,
         "peers": len(peer_manager.peers) if peer_manager else 0,
+        "network": "online",
+        "pending_transactions": len(blockchain.pending_transactions) if blockchain else 0,
+    }
+
+
+@router.get("/api/mempool")
+async def get_mempool():
+    return {
+        "count": len(blockchain.pending_transactions),
+        "transactions": [tx.to_dict() for tx in blockchain.pending_transactions],
     }
 
 
