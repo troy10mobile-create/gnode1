@@ -13,7 +13,7 @@ DATA_DIR.mkdir(parents=True, exist_ok=True)
 DISCOVERY_URL = os.getenv("DISCOVERY_URL", "").rstrip("/")
 NETWORK_SECRET = os.getenv("NETWORK_SECRET", "dev-secret-change-me")
 NETWORK_ID = os.getenv("NETWORK_ID", "mainnet")
-NODE_VERSION = os.getenv("NODE_VERSION", "0.2.0")
+APP_VERSION = os.getenv("APP_VERSION", "0.2.0")
 PUBLIC_URL = os.getenv("PUBLIC_URL", "").rstrip("/")
 
 # Ports
