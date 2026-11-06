@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101827">
+  <title>Genesis Node · Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="/"><span class="brand-mark">G</span><span>GENESIS <small>NODE</small></span></a>
+    <div class="connection"><span class="pulse" id="status-dot"></span><span id="network-label">Connecting to node…</span></div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div><p class="eyebrow">YOUR NODE · LIVE OVERVIEW</p><h1>Blockchain dashboard</h1><p class="muted">Your node's wallet, mining activity and local view of the network.</p></div>
+      <button class="button button-secondary" id="refresh-btn" type="button">↻ Refresh</button>
+    </section>
+
+    <section class="stats-grid" aria-label="Network statistics">
+      <article class="stat-card"><span class="stat-label">BLOCK HEIGHT</span><strong id="height">—</strong><span class="stat-foot">Blocks in local chain</span></article>
+      <article class="stat-card"><span class="stat-label">CONNECTED PEERS</span><strong id="peer-count">—</strong><span class="stat-foot">Known peer URLs</span></article>
+      <article class="stat-card"><span class="stat-label">PENDING TRANSACTIONS</span><strong id="pending-count">—</strong><span class="stat-foot">Waiting to be mined</span></article>
+      <article class="stat-card"><span class="stat-label">NETWORK</span><strong class="network-value" id="network-state">—</strong><span class="stat-foot" id="node-version">Node status</span></article>
+    </section>
+
+    <section class="content-grid">
+      <article class="panel wallet-panel">
+        <div class="panel-heading"><div><p class="eyebrow">NODE WALLET</p><h2>Wallet overview</h2></div><span class="tag">LOCAL WALLET</span></div>
+        <p class="balance-label">Confirmed balance</p>
+        <div class="balance"><strong id="balance">—</strong><span>GEN</span></div>
+        <p class="address-label">WALLET ADDRESS</p>
+        <div class="address-box"><code id="address">Loading address…</code><button class="icon-button" id="copy-address" title="Copy address" aria-label="Copy wallet address">Copy</button></div>
+        <p class="hint">This is the wallet stored by this node. Keep access to the node's wallet backup safe.</p>
+      </article>
+
+      <article class="panel send-panel">
+        <div class="panel-heading"><div><p class="eyebrow">TRANSFER</p><h2>Send coins</h2></div><span class="tag">SIGNED BY NODE</span></div>
+        <form id="send-form">
+          <label for="recipient">Recipient address</label>
+          <input id="recipient" name="recipient" type="text" placeholder="Enter destination address" autocomplete="off" required>
+          <label for="amount">Amount</label>
+          <div class="amount-wrap"><input id="amount" name="amount" type="number" min="0.00000001" step="any" placeholder="0.00" required><span>GEN</span></div>
+          <button class="button button-primary full" id="send-btn" type="submit">Send transaction <span>→</span></button>
+        </form>
+        <div class="notice" id="send-notice" role="status" hidden></div>
+        <p class="hint warning-hint">Experimental network: do not send real funds or use valuable private keys.</p>
+      </article>
+    </section>
+
+    <section class="content-grid lower-grid">
+      <article class="panel mining-panel">
+        <div class="panel-heading"><div><p class="eyebrow">PROOF OF WORK</p><h2>Mining</h2></div><span class="tag">LOCAL MINER</span></div>
+        <p class="muted">Mine a block using this node's wallet as the reward recipient.</p>
+        <button class="button button-primary full" id="mine-btn" type="button">⚒ Mine a block</button>
+        <div class="notice" id="mine-notice" role="status" hidden></div>
+      </article>
+      <article class="panel mempool-panel">
+        <div class="panel-heading"><div><p class="eyebrow">TRANSACTION QUEUE</p><h2>Pending transactions</h2></div><span class="tag" id="mempool-tag">0 ITEMS</span></div>
+        <div id="mempool-list" class="compact-list"><p class="empty">Loading pending transactions…</p></div>
+      </article>
+    </section>
+
+    <section class="panel explorer-panel">
+      <div class="panel-heading"><div><p class="eyebrow">LOCAL BLOCKCHAIN</p><h2>Recent blocks</h2></div><span class="tag">MINI EXPLORER</span></div>
+      <div class="table-wrap"><table><thead><tr><th>HEIGHT</th><th>BLOCK HASH</th><th>TRANSACTIONS</th><th>TIME</th></tr></thead><tbody id="blocks-body"><tr><td colspan="4" class="empty">Loading blockchain…</td></tr></tbody></table></div>
+    </section>
+    <footer><span>GENESIS NODE · EXPERIMENTAL BLOCKCHAIN</span><span id="last-updated">Not yet updated</span></footer>
+  </main>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
