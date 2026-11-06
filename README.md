@@ -27,12 +27,16 @@ cp .env.example .env
 # Edit .env:
 #   - Set DISCOVERY_URL to your discovery service
 #   - Set NETWORK_SECRET (must match discovery)
-#   - Optionally set PUBLIC_URL when deployed
+#   - On Render, PUBLIC_URL is detected automatically from RENDER_EXTERNAL_URL
+#   - On other hosts, set PUBLIC_URL to this node's public HTTPS URL
 
 python -m app.main
 ```
 
 The node will:
+
+- Detect its public URL automatically on Render using `RENDER_EXTERNAL_URL`
+- Refuse to register loopback/private peer URLs such as `127.0.0.1`
 
 1. Create or load wallet + blockchain
 2. Register with the discovery service
@@ -45,7 +49,7 @@ The node will:
 |------------------|--------------------------------------------------|
 | `DISCOVERY_URL`  | URL of the discovery service                     |
 | `NETWORK_SECRET` | Shared secret (must match discovery service)     |
-| `PUBLIC_URL`     | Public URL of *this* node (needed when deployed) |
+| `PUBLIC_URL`     | Optional public URL override; Render auto-detects `RENDER_EXTERNAL_URL` |
 | `HTTP_PORT`      | Port for the API (default 8332)                  |
 | `DIFFICULTY`     | Leading zeros required (default 4)               |
 | `BLOCK_REWARD`   | Coinbase reward (default 50)                     |
