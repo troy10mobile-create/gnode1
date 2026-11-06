@@ -2,7 +2,7 @@ from __future__ import annotations
 import httpx
 import uuid
 from typing import List, Dict, Optional
-from app.config import DISCOVERY_URL, NETWORK_SECRET, NETWORK_ID, NODE_VERSION, PUBLIC_URL
+from app.config import DISCOVERY_URL, NETWORK_SECRET, NETWORK_ID, APP_VERSION, PUBLIC_URL
 
 
 class DiscoveryClient:
@@ -23,7 +23,7 @@ class DiscoveryClient:
             "node_id": self.node_id,
             "public_url": public_url,
             "network_id": NETWORK_ID,
-            "version": NODE_VERSION,
+            "version": APP_VERSION,
         }
 
         try:
