@@ -1,7 +1,7 @@
 import asyncio
 import uvicorn
 from contextlib import asynccontextmanager
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
@@ -64,7 +64,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Blockchain Node", version="0.2.0", lifespan=lifespan)
 
-# Mount static & templates (for future wallet/explorer UI)
+# Mount static assets and browser interface
 static_dir = Path(__file__).parent.parent / "static"
 templates_dir = Path(__file__).parent.parent / "templates"
 static_dir.mkdir(exist_ok=True)
@@ -72,6 +72,14 @@ templates_dir.mkdir(exist_ok=True)
 
 app.mount("/static", StaticFiles(directory=static_dir), name="static")
 templates = Jinja2Templates(directory=templates_dir)
+
+@app.get("/", include_in_schema=False)
+async def dashboard(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="index.html",
+        context={"request": request},
+    )
 
 # Init routes with our instances
 init_routes(blockchain, wallet, peer_manager, discovery)
